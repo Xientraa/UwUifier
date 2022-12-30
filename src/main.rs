@@ -1,6 +1,8 @@
 use std::collections::HashMap;
+use rand::seq::SliceRandom;
 
 fn uwuify(text: &String) -> String {
+    let endings = ["OwO", "UwU", "TwT", "QwQ", "Nya!", "O_O", "O_o", "oWo", "OvO", "*~*", ":3", "=3", "<(^V^<)", "UmU", "^~^"];
     let replacements = HashMap::from([
         ("w", "w-w"),
         ("l", "w"),
@@ -10,14 +12,15 @@ fn uwuify(text: &String) -> String {
         (".", "!!!"),
         ("ove", "uv")
     ]);
-    let mut result: String = text.clone();
+    let mut result: String = text.trim().to_string();
 
     for (key, value) in replacements {
         result = result.replace(key, value);
         result = result.replace(&key.to_uppercase(), &value.to_uppercase());
     }
 
-    return result;
+    let ending: &&str = endings.choose(&mut rand::thread_rng()).unwrap();
+    return format!("{result} {ending}");
 }
 
 fn main() {
