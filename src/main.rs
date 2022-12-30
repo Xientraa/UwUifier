@@ -1,25 +1,17 @@
-use std::collections::HashMap;
 use rand::seq::SliceRandom;
 
-fn uwuify(text: &String) -> String {
-    let endings = ["OwO", "UwU", "TwT", "QwQ", "Nya!", "O_O", "O_o", "oWo", "OvO", "*~*", ":3", "=3", "<(^V^<)", "UmU", "^~^"];
-    let replacements = HashMap::from([
-        ("w", "w-w"),
-        ("l", "w"),
-        ("r", "w"),
-        ("n", "ny"),
-        ("f", "th"),
-        (".", "!!!"),
-        ("ove", "uv")
-    ]);
-    let mut result: String = text.trim().to_string();
+const TO_REPLACE: [&str; 7] = ["w", "l", "r", "n", "f", ".", "ove"];
+const REPLACE_TO: [&str; 7] = ["w-w", "w", "w", "ny", "th", "!!!", "uv"];
+const ENDINGS: [&str; 15] = ["OwO", "UwU", "TwT", "QwQ", "Nya!", "O_O", "O_o", "oWo", "OvO", "*~*", ":3", "=3", "<(^V^<)", "UmU", "^~^"];
 
-    for (key, value) in replacements {
-        result = result.replace(key, value);
-        result = result.replace(&key.to_uppercase(), &value.to_uppercase());
+fn uwuify(text: &String) -> String {
+    let mut result: String = text.trim().to_string();
+    for (i, v) in TO_REPLACE.iter().enumerate() {
+        result = result.replace(v, REPLACE_TO[i]);
+        result = result.replace(&v.to_uppercase(), &REPLACE_TO[i].to_uppercase());
     }
 
-    let ending: &&str = endings.choose(&mut rand::thread_rng()).unwrap();
+    let ending: &&str = ENDINGS.choose(&mut rand::thread_rng()).unwrap();
     return format!("{result} {ending}");
 }
 
